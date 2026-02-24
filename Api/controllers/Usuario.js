@@ -1,5 +1,7 @@
 import Usuario from '../models/Usuario.js';
 import bcrypt from "bcrypt";
+import { json } from 'express';
+import jwt from "jsonwebtoken";
 
 const UsuarioController = {
     async getUsers(_, res){
@@ -106,7 +108,7 @@ const UsuarioController = {
                 data: result,
             })
         }catch (error){
-            return res.status(500).json({
+            res.status(500).json({
                 status: 500,
                 data: error.message,
             })
@@ -140,6 +142,60 @@ const UsuarioController = {
             })
         }
     },
+
+    async authentication(req, res){
+        try{
+            const {email, senha} = req.body;
+
+            if(!email || !senha){
+                res.status(400),json({
+                    status: 400,
+                    msg: "Todos os campos devem estar preenchidos!"
+                });
+            }
+
+            const user = await Usuario.authentication(email);
+
+            if(!user){
+                res.status(404).json({
+                    status: 404,
+                    msg: "Usuário não encontrado!"
+                });
+            }
+
+            const valideteSenha = await bcrypt.compare(senha, user.senha);
+
+            if(!valideteSenha){
+                res.status(401).json({
+                    status: 401,
+                    msg: "Senha incorreta!"
+                });
+            }
+
+            const Token = jwt.sign(
+                {id: user.id, nome: user.nome},
+                process.env.JWT_SECRET,
+                {expiresIn: process.env.JWT_EXPIRES},
+            );
+
+            return res.status(200).json({
+                status: 200,
+                msg: "Logado com sucesso",
+                token,
+                user: {
+                    id: user.id,
+                    nome: user.nome,
+                    email: user.email
+                }
+            })
+        }catch (error){
+            res.status(500).json({
+                status: 500,
+                msg: "",
+                data: error.message,
+            })
+        }
+    }
 }
 
 export default UsuarioController;

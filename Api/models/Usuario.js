@@ -52,6 +52,16 @@ const Usuario = {
             throw error;
         }
     },
+
+    async authentication(email){
+        try{
+            const [user] = await pool.promise().execute(`SELECT * FROM usuario WHERE email= ?`, [email])
+
+            return user[0];
+        }catch (error){
+            throw error;
+        }
+    },
 }
 
 export default Usuario;

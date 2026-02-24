@@ -4,10 +4,10 @@ import authToken from "../middleware.js"
 
 const router = Router();
 
-router.get("/auth/validete", authToken, (req, res) =>{
+router.get("/auth/validate", authToken, (req, res) =>{
     res.json({
         msg: "Token válido",
-        user: req.user,
+        user: req.user
     });
 })
 

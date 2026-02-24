@@ -1,6 +1,5 @@
 import Usuario from '../models/Usuario.js';
 import bcrypt from "bcrypt";
-import { json } from 'express';
 import jwt from "jsonwebtoken";
 
 const UsuarioController = {
@@ -13,7 +12,7 @@ const UsuarioController = {
                 data: users[0],
             });
         }catch (error){
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 data: error.message,
             });
@@ -172,7 +171,7 @@ const UsuarioController = {
                 });
             }
 
-            const Token = jwt.sign(
+            const token = jwt.sign(
                 {id: user.id, nome: user.nome},
                 process.env.JWT_SECRET,
                 {expiresIn: process.env.JWT_EXPIRES},
@@ -185,13 +184,12 @@ const UsuarioController = {
                 user: {
                     id: user.id,
                     nome: user.nome,
-                    email: user.email
+                    email: user.email,
                 }
             })
         }catch (error){
             res.status(500).json({
                 status: 500,
-                msg: "",
                 data: error.message,
             })
         }

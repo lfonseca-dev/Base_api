@@ -14,14 +14,16 @@ const authToken = (req, res, next) =>{
 
         const token = parts[1];
 
+
         jwt.verify(token, process.env.JWT_SECRET, (error, user) =>{
             if(error){
                 return res.sendStatus(401);
             }
-        })
 
         req.user = user;
         next();
+        });
+
     }catch (error){
         return res.status(500).json({
             status: 500,

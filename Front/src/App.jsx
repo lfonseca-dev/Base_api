@@ -1,0 +1,112 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import axios from 'axios'
+import { useEffect,useState } from 'react'
+import Login from './pages/Login.jsx'
+import ProtectedRoute from './pages/ProtecdedRoute.jsx';
+import PublicRoute from './pages/PublicRoute.jsx';
+import NotFound from './pages/NotFound.jsx';
+import Home from './pages/Home.jsx';
+import Perfil from './pages/Perfil.jsx';
+
+function App() {
+
+  const lastAccess = localStorage.getItem('lastaccess');
+
+  const [isAuth, setIsAuth] = useState(false);
+
+  const validateToken = async () => {
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setIsAuth(false);
+      return;
+    }
+
+    try {
+      await axios.get("http://localhost:9099/api/usuario/auth/validate", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      setIsAuth(true);
+
+    } catch (error) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("loggedUsername");
+      localStorage.removeItem("loggedEmail");
+      window.location.reload();
+    }
+  }
+
+  useEffect(() => {
+    validateToken()
+  }, [])
+
+  useEffect(() => {
+
+    const handleStorageChange = (event) => {
+      if (event.key === "token") {
+        console.log("Token alterado!");
+
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+
+  }, []);
+
+  return (
+
+    <BrowserRouter>
+
+      <Routes>
+
+        <Route path="*" element={<NotFound />} />
+
+        <Route
+          path="/"
+          element={
+            isAuth
+              ? <Navigate to={lastAccess || "/home"} replace />
+              : <Navigate to="/login" replace />
+          }
+        />
+
+        <Route
+          path="/login"
+          element={
+            <PublicRoute isAuth={isAuth}>
+              <Login setIsAuth={setIsAuth} />
+            </PublicRoute>
+          }
+        />
+
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute isAuth={isAuth}>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/perfil"
+          element={
+            <ProtectedRoute isAuth={isAuth}>
+              <Perfil />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;

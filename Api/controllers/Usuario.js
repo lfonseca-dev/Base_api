@@ -1,6 +1,7 @@
 import Usuario from '../models/Usuario.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import validateSenha from "../utils/validateSenha.js";
 
 const UsuarioController = {
     async getUsers(_, res){
@@ -27,6 +28,22 @@ const UsuarioController = {
                 return res.status(400).json({
                     status: 400,
                     msg: "Todos os campos devem ser preenchidos!",
+                });
+            }
+
+            if(email.includes("@")== false){
+                return res.status(400).json({
+                    status: 400,
+                    msg: "Email inválido!!",
+                });
+            }
+
+            const erroSenha = validateSenha(senha);
+
+            if(erroSenha){
+                return res.status(400).json({
+                    status: 400,
+                    msg: erroSenha,
                 });
             }
 

@@ -38,12 +38,10 @@ const UsuarioController = {
                 });
             }
 
-            const erroSenha = validateSenha(senha);
-
-            if(erroSenha){
+            if(senha.length <= 4){
                 return res.status(400).json({
                     status: 400,
-                    msg: erroSenha,
+                    msg: "A senha deve ter 4 caracteres ou mais",
                 });
             }
 

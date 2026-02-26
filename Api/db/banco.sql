@@ -3,6 +3,9 @@ CREATE DATABASE IF NOT EXISTS Api_rest;
 USE Api_rest;
 
 DROP TABLE IF EXISTS usuario;
+DROP TABLE IF EXISTS categoria;
+DROP TABLE IF EXISTS produto;
+
 
 CREATE TABLE IF NOT EXISTS usuario(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -10,3 +13,23 @@ CREATE TABLE IF NOT EXISTS usuario(
     email VARCHAR(255) UNIQUE,
     senha VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS categoria(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS produto(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(255),
+    bitola FLOAT,
+    peso FLOAT,
+    idCategoria INT UNSIGNED,
+    FOREIGN KEY(idCategoria) REFERENCES categoria(id)
+);
+
+INSERT INTO categoria(descricao) VALUES 
+('FIO-MÁQUINA'),
+('CA-50'),
+('CA-60'),
+('BTC');

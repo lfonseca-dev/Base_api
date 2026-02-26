@@ -1,4 +1,4 @@
-import Categoria from "../models/Categoria";
+import Categoria from "../models/Categoria.js";
 
 const CategoriaController = {
     async getAllCategories(_, res){

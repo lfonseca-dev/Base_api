@@ -1,4 +1,4 @@
-import Produto from "../models/Produto";
+import Produto from "../models/Produto.js";
 
 const ProdutoController = {
   async getProduto(_, res) {
@@ -61,10 +61,14 @@ const ProdutoController = {
         });
       }
 
-      const result = await Produto.addTask(
+      const pesoNumero = Number(peso);
+
+      const pesoFormatado = parseFloat(pesoNumero.toFixed(3));
+
+      const result = await Produto.addProduto(
         descricao,
         bitola,
-        peso,
+        pesoFormatado,
         idCategoria,
       );
 
@@ -97,9 +101,9 @@ const ProdutoController = {
         });
       }
 
-      const produtos = await Produto.getTaskById(id);
+      const produtos = await Produto.getProdutoById(id);
 
-      if (!task) {
+      if (!produtos) {
         return res.status(404).json({
           status: 404,
           msg: "Produto não encontrado!",
@@ -131,7 +135,7 @@ const ProdutoController = {
     try {
       const id = req.params.id;
 
-      const produtos = await Produto.getTaskById(id);
+      const produtos = await Produto.getProdutoById(id);
 
       if (!produtos) {
         return res.status(400).json({
@@ -140,7 +144,7 @@ const ProdutoController = {
         });
       }
 
-      const result = await Produto.deleteTask(id);
+      const result = await Produto.deleteProduto(id);
 
       return res.status(200).json({
         status: 200,

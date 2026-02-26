@@ -1,4 +1,4 @@
-import pool from "../db/pool";
+import pool from "../db/pool.js";
 
 const Produto = {
      async getProdutos() {
@@ -27,7 +27,7 @@ const Produto = {
       const result = await pool
         .promise()
         .execute(
-          `INSERT INTO produto (descricao, bitola, peso idcategoria) VALUES(?, ?, ?, ?)`,
+          `INSERT INTO produto (descricao, bitola, peso, idcategoria) VALUES(?, ?, ?, ?)`,
           [descricao, bitola, peso, idCategoria],
         );
 

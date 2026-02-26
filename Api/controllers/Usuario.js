@@ -1,7 +1,6 @@
 import Usuario from '../models/Usuario.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import validateSenha from "../utils/validateSenha.js";
 
 const UsuarioController = {
     async getUsers(_, res){

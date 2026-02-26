@@ -12,8 +12,8 @@ api.use(express.json());
 api.use(cors());
 
 api.use("/api/usuario", UserRouter)
-api.use("api/categoria", CategoriaRouter)
-api.use("api/produto", ProdutoRouter)
+api.use("/api/categoria", CategoriaRouter)
+api.use("/api/produto", ProdutoRouter)
 
 
 api.listen(PORT, ()=>{

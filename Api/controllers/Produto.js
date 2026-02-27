@@ -5,17 +5,17 @@ const ProdutoController = {
     try {
       const produtos = await Produto.getProdutos();
 
-      if (produtos[0].length <= 0) {
-        return res.status(404).json({
-          status: 404,
-          msg: "Produtos não encontrados!",
-        });
-      }
+      if (!produtos || produtos.length === 0) {
+            return res.status(404).json({ 
+              status: 404, 
+              msg: "Produtos não encontrados!",
+            });
+        }
 
       return res.status(200).json({
         status: 200,
         msg: "OK",
-        data: produtos[0],
+        data: produtos,
       });
     } catch (error) {
       res.status(500).json({

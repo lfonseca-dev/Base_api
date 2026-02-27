@@ -2,11 +2,12 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect,useState } from 'react'
 import Login from './pages/Login.jsx'
-import ProtectedRoute from './pages/ProtecdedRoute.jsx';
+import ProtectedRoute from './pages/ProtectedRoute.jsx';
 import PublicRoute from './pages/PublicRoute.jsx';
 import NotFound from './pages/NotFound.jsx';
 import Home from './pages/Home.jsx';
 import Perfil from './pages/Perfil.jsx';
+import Produto from './pages/Produto.jsx';
 
 function App() {
 
@@ -101,6 +102,15 @@ function App() {
           element={
             <ProtectedRoute isAuth={isAuth}>
               <Perfil />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/produto"
+          element={
+            <ProtectedRoute isAuth={isAuth}>
+              <Produto />
             </ProtectedRoute>
           }
         />

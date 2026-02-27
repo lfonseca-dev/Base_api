@@ -3,7 +3,7 @@ import pool from "../db/pool.js";
 const Produto = {
      async getProdutos() {
     try {
-      const produtos = await pool.promise().execute(`SELECT * FROM produto;`);
+      const [produtos] = await pool.promise().execute(`SELECT * FROM produto;`);
 
       return produtos;
     } catch (error) {

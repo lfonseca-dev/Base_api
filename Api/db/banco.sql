@@ -21,10 +21,10 @@ CREATE TABLE IF NOT EXISTS categoria(
 
 CREATE TABLE IF NOT EXISTS produto(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    descricao VARCHAR(255),
-    bitola FLOAT,
-    peso FLOAT,
-    idCategoria INT UNSIGNED,
+    descricao VARCHAR(255) NOT NULL,
+    bitola FLOAT NULL,
+    peso FLOAT NULL,
+    idCategoria INT UNSIGNED NOT NULL,
     FOREIGN KEY(idCategoria) REFERENCES categoria(id)
 );
 

@@ -5,11 +5,11 @@ const CategoriaController = {
         try{
             const categorias = await Categoria.getAllCategories();
 
-            if(!categorias){
+            if(!categorias || categorias.length === 0){
                 return res.status(404).json({
                     status: 404,
-                    msg: "Categoria não encontradas!"
-                })
+                    msg: "Categorias não encontradas!"
+                });
             }
 
             return res.status(200).json({

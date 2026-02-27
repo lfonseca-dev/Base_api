@@ -5,7 +5,7 @@ const Categoria = {
         try{
             const [categories] = await pool.promise().execute(`SELECT * FROM categoria`);
 
-            return [categories];
+            return categories;
         }catch(error){
             throw error;
         }

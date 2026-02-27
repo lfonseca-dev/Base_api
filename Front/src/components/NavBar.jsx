@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function NavBar() {
 
     return (
-        <nav className="w-full bg-linear-to-r from-white via-zinc-50 to-red-500 shadow-xl px-8 py-4 flex items-center justify-between">
+        <nav className="w-full bg-linear-to-t bg-zinc-100 to-red-500 shadow-xl px-8 py-4 flex items-center justify-between">
 
             <Link to="/home">
                 <img
@@ -37,6 +37,18 @@ function NavBar() {
                     hover:after:w-full
                 ">
                     Perfil
+                </Link>
+
+                <Link to="/produto"
+                    className="
+                    text-black font-medium relative transition duration-300
+                    hover:text-white
+                    after:content-[''] after:absolute after:left-0 after:-bottom-1 
+                    after:w-0 after:h-0.5 after:bg-red-700
+                    after:transition-all after:duration-300
+                    hover:after:w-full
+                ">
+                    Produto
                 </Link>
             </div>
         </nav>
